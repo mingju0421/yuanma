@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监听器</title>
+</head>
+
+<body>
+    <div id="div">aaaaa</div>
+    <script>
+        function myLisenterer(str, fn) {
+            this.eventList = this.eventList || {}
+            this.eventList[str] = this.eventList[str] ? [...this.eventList[str], fn] : [fn]
+            this[`on${str}`] = function () {
+                this.eventList[str].forEach(callback => {
+                    callback()
+                });
+                this.removeMyListener('click', a)
+            }
+        }
+        function removeMyListener(str, fn) {
+            if (!this.eventList[str]) return
+            this.eventList[str] = this.eventList[str].filter(callback => callback !== fn)
+        }
+
+
+        Object.prototype.myLisenterer = myLisenterer
+        Object.prototype.removeMyListener = removeMyListener
+
+        let div = document.querySelector('#div')
+        let a = () => console.log('1')
+        div.myLisenterer('click', a)
+        div.myLisenterer('click', () => console.log('2'))
+    </script>
+</body>
+
+</html>
