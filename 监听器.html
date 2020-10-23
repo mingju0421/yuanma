@@ -11,8 +11,11 @@
     <div id="div">aaaaa</div>
     <script>
         function myLisenterer(str, fn) {
+            // 判断有没有事件字典, 如果没有, 就新建事件字典
             this.eventList = this.eventList || {}
+            // 将回调函数保存到对应的事件队列中
             this.eventList[str] = this.eventList[str] ? [...this.eventList[str], fn] : [fn]
+            // 绑定事件, 循序调用事件队列
             this[`on${str}`] = function () {
                 this.eventList[str].forEach(callback => {
                     callback()
@@ -21,7 +24,9 @@
             }
         }
         function removeMyListener(str, fn) {
+            // 判断, 如果没有事件队列, 就退出
             if (!this.eventList[str]) return
+            // 过滤掉对应的回调函数
             this.eventList[str] = this.eventList[str].filter(callback => callback !== fn)
         }
 
@@ -33,6 +38,7 @@
         let a = () => console.log('1')
         div.myLisenterer('click', a)
         div.myLisenterer('click', () => console.log('2'))
+
     </script>
 </body>
 

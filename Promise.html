@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class MyPromise {
+            constructor(executor) {
+                // 状态
+                this.state = 'pending'
+                // 成功的值
+                this.value = undefined
+                // 失败的值
+                this.reason = undefined
+
+                this.onResolvedCallbacks = []
+                this.onRejectedCallbacks = []
+
+                let resolve = value => {
+                    if (!this.state === 'pending') return
+                    this.state = 'fulfilled'
+                    this.value = value
+                    this.onResolvedCallbacks.forEach(callback => callback())
+                }
+
+                let reject = reason => {
+                    if (!this.state === 'pending') return
+                    this.state = 'rejected'
+                    this.reason = reason
+                    this.onRejectedCallbacks.forEach(callback => callback())
+                }
+                try {
+                    executor(resolve, reject)
+                } catch (error) {
+                    reject(error)
+                }
+            }
+            then(onFulfilled, onRejected) {
+                this.state === 'fulfilled' && onFulfilled(this.value)
+                this.state === 'rejected' && onFulfilled(this.reason)
+                this.state === 'pending' && (this.onResolvedCallbacks.push(() => onFulfilled(this.value)), this.onRejectedCallbacks.push(() => onRejected(this.reason)))
+
+            }
+        }
+        let p = new MyPromise(r => setTimeout(() => {
+            r(1)
+        }, 100))
+        p.then(a => console.log(1, a))
+        p.then(a => console.log(2, a))
+
+    </script>
+
+</body>
+
+</html>
