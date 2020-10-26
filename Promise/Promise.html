@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        (function () {
+            function Promise(executor) {
+                // 保存实例
+                var self = this
+                // 初始状态
+                self.state = 'pending'
+                // 初始结果
+                self.result = undefined
+
+                self.onfulfilledCallbacks = []
+                self.onrejectedCallbacks = []
+
+                // 修改 Promise 状态, 值
+                var change = function change(state, value) {
+                    if (self.state !== 'pending') return
+                    self.state = state
+                    self.result = value
+                    setTimeout(function () {
+                        var arr = state === 'fulfilled' ? self.onfulfilledCallbacks : self.onrejectedCallbacks
+                        for (var i = 0; i < arr.length; i++) {
+                            var itemFunc = arr[i]
+                            itemFunc(value)
+                        }
+                    })
+                }
+
+                var resolve = function resolve(result) {
+                    change('fulfilled', result)
+                }
+                var reject = function reject(reason) {
+                    change('rejected', reason)
+                }
+
+
+                // 立即执行 executor 函数
+                try {
+                    executor(resolve, reject)
+                } catch (error) {
+                    reject(err)
+                }
+            }
+            Promise.prototype.then = function then(onfulfilled, onrejected) {
+                var self = this,
+                    state = self.state,
+                    value = self.result
+                switch (state) {
+                    case 'fulfilled':
+                        setTimeout(function () {
+                            onfulfilled(value)
+                        })
+                        break
+                    case 'rejected':
+                        setTimeout(function () {
+                            onrejected(value)
+                        })
+                        break
+                    default:
+                        self.onfulfilledCallbacks.push(onfulfilled)
+                        self.onrejectedCallbacks.push(onrejected)
+                }
+            }
+            window.Promise = Promise
+        })();
+
+        let p = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('OK')
+            }, 1000);
+        })
+        p.then(result => console.log(result))
+        console.log(2)
+    </script>
+</body>
+
+</html>

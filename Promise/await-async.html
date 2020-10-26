@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // function* fn() {
+        //     let x = yield 1
+        //     console.log(x)
+        //     yield 2
+        // }
+        // let itor = fn()  // 返回结果是个迭代器; 拥有 next 方法, 执行 next 方法可以依次遍历数据结构中的每一项的值 -> 数据结构具备 Symbol.iterator 属性, 说明其是可以被迭代的
+        // console.log(itor.next()) // {value: 1, done: false}
+        // console.log(itor.next(10)) // {value: 1, done: false}
+
+        // async / await 的原理: 是 generator 的语法糖
+        function AsyncFunc(generator) {
+            let iterator = generator()
+            let next = x => {
+                let { value, done } = iterator.next(x)
+                done || value.then(x => next(x))
+            }
+            next()
+        }
+
+
+
+        let func1 = () => new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('func1 data')
+            }, 1000);
+        })
+        let func2 = () => new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('func2 data')
+            }, 1000);
+        })
+        let func3 = () => new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('func3 data')
+            }, 1000);
+        })
+
+        function* generator() {
+            let x = yield func1()
+            console.log(x)
+            x = yield func2()
+            console.log(x)
+            x = yield func3()
+            console.log(x)
+        }
+        AsyncFunc(generator)
+
+
+        // let iterator = generator()
+        // iterator.next().value.then(x => {
+        //     iterator.next().value.then(x => {
+        //         iterator.next().value.then(x => {
+        //             console.log(x)
+        //         })
+        //         console.log(x)
+        //     })
+        //     console.log(x)
+        // })
+    </script>
+</body>
+
+</html>
