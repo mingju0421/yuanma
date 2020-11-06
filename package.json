@@ -1,0 +1,24 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "underscore.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "yarn nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mingju0421/yuanma.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mingju0421/yuanma/issues"
+  },
+  "homepage": "https://github.com/mingju0421/yuanma#readme",
+  "dependencies": {
+    "koa": "^2.13.0",
+    "nodemon": "^2.0.6"
+  }
+}

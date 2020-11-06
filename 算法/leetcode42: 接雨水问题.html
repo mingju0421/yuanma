@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leetcode42: 接雨水问题</title>
+</head>
+
+<body>
+    <script>
+        const 柱子 = []
+        while (柱子.length < 100) 柱子.push(~~(Math.random() * 100))
+        const 接雨水 = (height, 后面的柱子 = height[height.length - 1]) => {
+            if (!height.length) return 0
+            let 总量 = 0, 可能接到的水 = 0, 可能有问题的下标 = 0
+            for (let i = height.length - 1; i >= 0; i--) {
+                if (height[i] < 后面的柱子) 可能接到的水 += 后面的柱子 - height[i]
+                else 总量 += 可能接到的水, 后面的柱子 = height[i], 可能接到的水 = 0, 可能有问题的下标 = i
+            }
+            let 可能有问题的柱子集合 = height.slice(0, 可能有问题的下标)
+            总量 += 接雨水(可能有问题的柱子集合, Math.max(...可能有问题的柱子集合))
+            return 总量
+        }
+        console.log(接雨水(柱子))
+    </script>
+</body>
+
+</html>

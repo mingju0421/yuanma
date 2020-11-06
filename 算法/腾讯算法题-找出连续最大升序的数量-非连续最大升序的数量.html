@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腾讯算法题-找出连续最大升序的数量-非连续最大升序的数量</title>
+</head>
+
+<body>
+    <script>
+        const arr = []
+        while (arr.length < 100) arr.push(~~(Math.random() * 100))
+        // const arr = [1, 101, 19, 12, 6, 51, 32, 7, 103]
+        const 连续最大升序 = arr => {
+            let sum = 1, _sum = 1
+            for (let i = 0; i < arr.length - 1; i++) {
+                if (arr[i] < arr[i + 1]) _sum += 1
+                else _sum = 1
+                if (_sum > sum) sum = _sum
+            }
+            console.log(sum)
+        }
+        const 不连续最大升序 = arr => {
+            // 保存每个下标对应的最大升序数量
+            let 数组下标对应的非连续最大升序 = {}
+            // 从最后一个算
+            for (let i = arr.length - 1; i >= 0; i--) {
+                let 当前下标对应的所有非连续升序集 = [1]
+                for (let j = i + 1; j < arr.length - 1; j++) {
+                    // 如果后面的值大于当前值 将累计值存入数据
+                    if (arr[i] < arr[j]) 当前下标对应的所有非连续升序集.push(数组下标对应的非连续最大升序[j] + 1)
+                }
+                // 过滤出每个下标的最大值
+                数组下标对应的非连续最大升序[i] = Math.max(...当前下标对应的所有非连续升序集)
+            }
+            // 过滤出对象中最大的值
+            console.log(Math.max(...Object.values(数组下标对应的非连续最大升序)))
+        }
+        连续最大升序(arr)
+        不连续最大升序(arr)
+    </script>
+</body>
+
+</html>

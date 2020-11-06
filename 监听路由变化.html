@@ -99,24 +99,17 @@
                 if (name === 'historychange') {
                     return function (name, fn) {
                         var event = new Watch(name, fn)
-                        console.log(historyDep.subs)
-
-                        console.log(event)
                         Dep.watch = event;
                         historyDep.defined();
                         Dep.watch = null;       //置空供下一个订阅者使用
                     }
                 } else if (name === 'pushState' || name === 'replaceState') {
                     var method = history[name];
-                    console.log(historyDep.subs)
-
                     return function () {
                         method.apply(history, arguments);
                         historyDep.notify();
                     }
                 }
-
-
             }
         }())
 
@@ -128,9 +121,7 @@
         window.addHistoryListener('history', function () {
             console.log('窗口的history改变了');
         })
-        window.addHistoryListener('history', function () {
-            console.log('窗口的history改变了-我也听到了');
-        })
+
     </script>
 </body>
 
