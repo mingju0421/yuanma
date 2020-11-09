@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leetcode5: 最长回文子串</title>
+</head>
+
+<body>
+    <script>
+        // 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+        const str = "babad"
+
+        // 暴力解法
+        const 最长回文子串 = str => {
+            // 如果字符串为空串或者为 单个字母, 返回字符串
+            if (str.length < 2) return str
+            let 最长回文字符串 = str[0]
+            let length = str.length
+            for (let left = 0; left < length; left++) {
+                for (let right = left + 1; right < length; right++) {
+                    let 临时字符串 = str.slice(left, right + 1)
+                    临时字符串.length > 最长回文字符串.length && 判断是否为回文字符串(临时字符串) && (最长回文字符串 = 临时字符串)
+                }
+            }
+            console.log(最长回文字符串)
+        }
+        const 判断是否为回文字符串 = str => {
+            let left = 0, right = str.length - 1
+            while (left < right) {
+                if (str[left] == str[right]) {
+                    left++, right--
+                    if (right <= left) return true
+                } else {
+                    return false
+                }
+            }
+        }
+        最长回文子串(str)
+    </script>
+</body>
+
+</html>
