@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leetcode31: 下一个排列</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
+         * 如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
+         * 必须原地修改，只允许使用额外常数空间。
+         * */
+        const 下一个排列 = arr => {
+            let length = arr.length - 1
+            for (let left = length - 1; left >= 0; left--) {
+                let 前面的数 = arr[left]
+                let 后面的数 = Infinity
+                let right
+                let index
+                for (right = left + 1; right <= length; right++) {
+                    if (arr[right] > 前面的数) {
+                        index = right
+                        后面的数 = arr[right] < 后面的数 ? arr[right] : 后面的数
+                    }
+                }
+                if (index) {
+                    console.log(`right: ${right} left: ${left} arr[left]: ${arr[left]} arr[right]: ${arr[right]} 后面的数: ${后面的数} 前面的数: ${前面的数}`);
+                    [arr[left], arr[index]] = [arr[index], arr[left]]
+                    let 临时数组 = arr.splice(left + 1)
+                    临时数组.sort((a, b) => a - b)
+                    arr.push(...临时数组)
+                    return arr
+                }
+            }
+            return arr.reverse()
+        }
+        const arr = [1, 2, 3]
+        console.log(下一个排列(arr))
+    </script>
+
+</body>
+
+</html>

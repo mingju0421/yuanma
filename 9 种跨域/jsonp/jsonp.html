@@ -11,6 +11,7 @@
 <body>
     <!-- <img src="" alt=""> -->
     <script>
+        // scr 请求没有跨域问题, 后端返回 json 格式字符串: cd(data) 格式, 前端收到就可以执行 cd 方法(方法名是前端传过去的)
         // 只能发送 get 请求, 不支持 post, put, delete
         // 不安全 xss 攻击
         function jsonp({ url, params, cb }) {

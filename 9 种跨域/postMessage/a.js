@@ -1,0 +1,6 @@
+const Koa = require('koa')
+const serve = require('koa-static')
+const app = new Koa()
+// app.use(static(__dirname, '/a.html'))
+app.use(serve(__dirname + '/'))
+app.listen(3001, () => console.log('3001'))

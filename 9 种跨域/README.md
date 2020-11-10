@@ -19,8 +19,8 @@
 
 
 ## 实现跨域
-- jsonp
-- cors (纯后端)
+- jsonp 通过 src 获取数据, 后端返回一个函数调用, 参数就是需要的数据
+- cors (纯后端)  后端设置请求头
 - postMessage
 - document.domain(子域和父域)
 - `window.name`
