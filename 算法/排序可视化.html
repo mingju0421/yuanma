@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序可视化</title>
+    <script src="../echarts.min.js"></script>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <button id="btn">下一步</button>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var 随机数组 = []
+        var index = 1
+        let 初始化 = () => {
+            index = 1
+            while (随机数组.length < 10) 随机数组.push(~~(Math.random() * 100))
+            冒泡排序(随机数组)
+            myChart.setOption(option);
+        }
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '排序可视化'
+            },
+            tooltip: {},
+            xAxis: {
+                data: 随机数组
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: 随机数组
+            }]
+        };
+        var 数组变化集合 = []
+        // 使用刚指定的配置项和数据显示图表。
+        var 冒泡排序 = arr => {
+            for (let left = 0; left < arr.length; left++)
+                for (let right = left + 1; right < arr.length; right++)
+                    if (arr[left] > arr[right]) [arr[left], arr[right]] = [arr[right], arr[left]], 数组变化集合.push([...arr])
+            return arr
+        }
+
+
+        初始化()
+
+
+        function next() {
+            if (index >= 数组变化集合.length) confirm('结束了') && 初始化()
+            option.xAxis.data = 数组变化集合[index]
+            option.series[0].data = 数组变化集合[index]
+            index++
+            myChart.setOption(option, true);
+        }
+        let btn = document.querySelector('#btn')
+        btn.addEventListener('click', next)
+    </script>
+</body>
+
+</html>

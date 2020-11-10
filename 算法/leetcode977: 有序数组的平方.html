@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leetcode977: 有序数组的平方</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 给定一个按非递减顺序排序的整数数组 A，返回每个数字的平方组成的新数组，要求也按非递减顺序排序。
+        */
+        const 有序数组的平方 = arr => {
+            for (let i = 0; i < arr.length; i++) arr[i] *= arr[i]
+            // 冒泡排序
+            for (let left = 0; left < arr.length; left++)
+                for (let right = left + 1; right < arr.length; right++)
+                    if (arr[left] > arr[right]) [arr[left], arr[right]] = [arr[right], arr[left]]
+            return arr
+        }
+        console.log(有序数组的平方([-4, -1, 0, 3, 10]))
+    </script>
+</body>
+
+</html>
