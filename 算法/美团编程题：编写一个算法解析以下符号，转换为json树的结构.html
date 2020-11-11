@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美团编程题：编写一个算法解析以下符号，转换为json树的结构</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 编写一个算法解析以下符号，转换为json树的结构
+         * let str = <xml><div><p><a/></p><p></p></div></xml>
+        */
+        /**
+         * interface TNode {
+         *   name: string;
+         *   children: TNode[] | null;
+         * }
+        */
+        const DOM解析 = str => {
+            let 标签开始 = /^<(\w+)>/
+            let 标签结束 = /^<\/(\w+)>/
+            let 自闭合标签 = /^<(\w+)\/>/
+            let DOMList = []
+            while (str) {
+                let 临时标签
+                if (标签开始.test(str)) {
+                    let dom = {}
+                    临时标签 = str.match(标签开始)
+                    dom.name = 临时标签[1]
+                    str = str.slice(临时标签[0].length)
+                    DOMList.push(dom)
+                } else if (标签结束.test(str)) {
+                    临时标签 = str.match(标签结束)
+                    str = str.slice(临时标签[0].length)
+                    let dom = DOMList.pop()
+                    if (!str) return dom
+                    let parentDOM = DOMList[DOMList.length - 1]
+                    parentDOM.children && parentDOM.children.push(dom) || (parentDOM.children = [dom])
+                } else {
+                    let dom = {}
+                    临时标签 = str.match(自闭合标签)
+                    dom.name = 临时标签[1]
+                    str = str.slice(临时标签[0].length)
+                    let parentDOM = DOMList[DOMList.length - 1]
+                    parentDOM.children && parentDOM.children.push(dom) || (parentDOM.children = [dom])
+                }
+            }
+        }
+        const str = '<div><ul><li><a></a><input/></li><li><a></a><input/></li><li><a></a><input/></li><li><a></a><input/></li></ul></div>'
+
+        console.log(JSON.stringify(DOM解析(str)))
+    </script>
+</body>
+
+</html>
