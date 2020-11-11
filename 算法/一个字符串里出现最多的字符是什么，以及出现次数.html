@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一个字符串里出现最多的字符是什么，以及出现次数</title>
+</head>
+
+<body>
+    <script>
+        let str = 'Once you learn to quit, it becomes a habit.'
+        const 出现最多的字符以及次数 = str => {
+            let 记录出现次数最多的字符 = str[0], 字符映射 = {}
+            for (let s of str) {
+                if (s == ' ') continue
+                s = s.toLowerCase()
+                字符映射[s] = 字符映射[s] ? 字符映射[s] + 1 : 1
+                记录出现次数最多的字符 = 字符映射[记录出现次数最多的字符] > 字符映射[s] ? 记录出现次数最多的字符 : s
+            }
+            return [记录出现次数最多的字符, 字符映射[记录出现次数最多的字符]]
+        }
+        console.log(出现最多的字符以及次数(str))
+    </script>
+</body>
+
+</html>

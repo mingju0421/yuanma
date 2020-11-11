@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leetcode15: 三数之和</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+         * 注意：答案中不可以包含重复的三元组。
+        */
+        /**
+         * 示例：
+         * 给定数组 nums = [-1, 0, 1, 2, -1, -4]
+         * [[-1, 0, 1], [-1, -1, 2]]
+        */
+        const 三数之和 = nums => {
+            if (nums.length < 3) return []
+            // 先排序
+            nums.sort((a, b) => a - b)
+            let length = nums.length - 1
+            let 三元组集合 = []
+            for (let i = 0; i <= length; i++) {
+                // 如果当前值大于0, 其加后面的值, 一定大于了, 结束循环
+                if (nums[i] > 0) break
+                // 去重
+                if (i > 0 && nums[i] == nums[i - 1]) continue
+                // 当前值, + 右边第一个 + 右边最后一个, 如果 大于 0, 最后一个往前移, 如果小于 0, 右边第一个往后移
+                let left = i + 1, right = length
+                while (left < right) {
+                    const sum = nums[i] + nums[left] + nums[right]
+                    if (!sum) {
+                        三元组集合.push([nums[i], nums[left], nums[right]])
+                        // 去重
+                        while (left < right && nums[left] == nums[++left]) ''
+                        // 去重
+                        while (left < right && nums[right] == nums[--right]) ''
+                    } else if (sum < 0) left++
+                    else if (sum > 0) right--
+                }
+            }
+            return 三元组集合
+        }
+        console.log(三数之和([-1, 0, 1, 2, -1, -4]))
+    </script>
+</body>
+
+</html>
