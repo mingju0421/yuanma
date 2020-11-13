@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode1572: 矩阵对角线元素的和</title>
+</head>
+
+<body>
+  <script>
+    /**
+      给你一个正方形矩阵 mat，请你返回矩阵对角线元素的和。
+      请你返回在矩阵主对角线上的元素和副对角线上且不在主对角线上元素的和。
+    */
+    const 矩阵对角线元素的和 = mat => {
+      let 和 = 0, left = 0, length = mat.length, right = length - 1
+      while (right >= 0) {
+        和 += left != right ? (mat[left][left] + mat[left][right]) : mat[left][left]
+        left++, right--
+      }
+      return 和
+    }
+    console.log(矩阵对角线元素的和([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+    console.log(矩阵对角线元素的和([[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1],]))
+  </script>
+</body>
+
+</html>
