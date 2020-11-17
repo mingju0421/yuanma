@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode225: 用队列实现栈</title>
+</head>
+
+<body>
+  <script>
+    /**
+      使用队列实现栈的下列操作：
+        push(x) -- 元素 x 入栈
+        pop() -- 移除栈顶元素
+        top() -- 获取栈顶元素
+        empty() -- 返回栈是否为空
+    */
+    class MyStack {
+      constructor() {
+        this.list = []
+        this._list = []
+      }
+      push(x) {
+        this.list.push(x)
+      }
+      pop() {
+        let result
+        while (this.list.length > 1) this._list.push(this.list.shift())
+        result = this.list.shift()
+        while (this._list.length) this.list.push(this._list.shift())
+        return result
+      }
+      top() {
+        let result
+        while (this.list.length > 1) this._list.push(this.list.shift())
+        result = this.list.shift()
+        this._list.push(result)
+        while (this._list.length) this.list.push(this._list.shift())
+        return result
+      }
+      empty() {
+        return !this.list.length
+      }
+    }
+  </script>
+</body>
+
+</html>

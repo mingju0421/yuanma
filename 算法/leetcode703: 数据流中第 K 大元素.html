@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode703: 数据流中第 K 大元素</title>
+</head>
+
+<body>
+  <script>
+    /**
+      设计一个找到数据流中第 k 大元素的类（class）。注意是排序后的第 k 大元素，不是第 k 个不同的元素。
+        KthLargest(int k, int[] nums) 使用整数 k 和整数流 nums 初始化对象。
+        int add(int val) 返回当前数据流中第 k 大的元素。
+    */
+    class KthLargest {
+      constructor(k, nums) {
+        this.list = nums.sort((a, b) => b - a)
+        this.k = k - 1
+      }
+      add(val) {
+        for (let i = 0; i < this.list.length; i++) {
+          if (val >= this.list[i]) {
+            this.list.splice(i, 0, val)
+            break
+          }
+        }
+        if (!this.list.length) this.list.push(val)
+        return this.list[this.k] != undefined ? this.list[this.k] : -1
+      }
+    }
+  </script>
+</body>
+
+</html>
