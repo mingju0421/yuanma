@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode355: 设计推特</title>
+</head>
+
+<body>
+  <script>
+    /**
+      设计一个简化版的推特(Twitter)，可以让用户实现发送推文，关注/取消关注其他用户，能够看见关注人（包括自己）的最近十条推文。你的设计需要支持以下的几个功能：
+        postTweet(userId, tweetId): 创建一条新的推文
+        getNewsFeed(userId): 检索最近的十条推文。每个推文都必须是由此用户关注的人或者是用户自己发出的。推文必须按照时间顺序由最近的开始排序。
+        follow(followerId, followeeId): 关注一个用户
+        unfollow(followerId, followeeId): 取消关注一个用户
+    */
+    class Twitter {
+      constructor() {
+        // user: {list: [{tweetId, time}], followList: {followerId: 1}} 
+        this.user = {}
+        // 记录发送的顺序
+        this.index = 0
+      }
+      // 发送
+      postTweet([userId, tweetId]) {
+        // 没法送一天数据, index + 1
+        if (this.user[userId]) {
+          this.user[userId].list.push({ tweetId, time: this.index++ })
+        } else {
+          this.user[userId] = { list: [{ tweetId, time: this.index++ }], followList: {} }
+        }
+      }
+      // 获取最近十条信息
+      getNewsFeed([userId]) {
+        let reuslt = []
+        // 判断 user[userId] 是否有值, 如果没有值, 设置默认值, 有值, 取最后 10 个
+        if (this.user[userId]) reuslt = this.user[userId].list.slice(-10)
+        else this.user[userId] = { list: [], followList: {} }
+        if (this.user[userId].followList) {
+          let followList = this.user[userId].followList
+          // 将所有关注的人的推文, 取最后 10 个, 然后合并
+          Object.keys(followList).forEach(follow => {
+            if (!this.user[follow]) this.user[follow] = { list: [], followList: {} }
+            reuslt = [...reuslt, ...this.user[follow].list.slice(-10)]
+          })
+        }
+        // 排序, 取最后 10 个返回
+        return reuslt.sort((a, b) => b.time - a.time).slice(0, 10).map(item => item.tweetId)
+      }
+      // 关注
+      follow([followerId, followeeId]) {
+        if (followerId == followeeId) return
+        if (this.user[followerId]) this.user[followerId].followList[followeeId] = 1
+        else this.user[followerId] = { followList: { [followeeId]: 1 }, list: [] }
+      }
+      unfollow([followerId, followeeId]) {
+        if (this.user[followerId]) delete this.user[followerId].followList[followeeId]
+      }
+    }
+    let twitter = new Twitter()
+
+    let arr = ["postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "getNewsFeed"]
+    var arr1 = [[1, 5], [1, 3], [1, 101], [1, 13], [1, 10], [1, 2], [1, 94], [1, 505], [1, 333], [1, 22], [1, 11], [1]]
+
+    for (let i = 0; i < arr.length; i++) {
+      console.log(twitter[arr[i]](arr1[i]))
+    }
+  </script>
+</body>
+
+</html>
