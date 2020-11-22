@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leetcode208: 实现 Trie (前缀树)</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 实现一个 Trie (前缀树)，包含 insert, search, 和 startsWith 这三个操作。
+        */
+        class Trie {
+            constructor() {
+                this.trie = []
+            }
+            insert(word) {
+                this.trie.push(word)
+            }
+            search(word) {
+                return this.trie.includes(word)
+            }
+            startsWith(word) {
+                let reg = new RegExp(`^${word}`)
+                for (let word of this.trie) if (reg.test(word)) return true
+                return false
+            }
+        }
+        class Trie {
+            constructor() {
+                this.trie = new Map()
+            }
+            insert(word) {
+                let node = this.trie
+                for (let w of word) node = node.get(w) || node.set(w, new Map()).get(w)
+                node.set('isWord', true)
+            }
+            search(word) {
+                let node = this.returnTailNode(word)
+                return node && node.get('isWord') || false
+            }
+            returnTailNode(word) {
+                let node = this.trie
+                for (let w of word) {
+                    if(!node.get(w)) return false
+                    node = node.get(w)
+                }
+                return node
+            }
+            startsWith(word) {
+                let node = this.returnTailNode(word)
+                return node && true || false
+            }
+        }
+    </script>
+</body>
+
+</html>
