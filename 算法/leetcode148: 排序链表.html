@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leetcode148: 排序链表</title>
+</head>
+
+<body>
+    <script src="../tool.js"></script>
+    <script>
+        /**
+            给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 
+        */
+        let arr = []
+        while (arr.length < 20) arr.push(~~(Math.random() * 1000000))
+        const head = 生成链表(arr)
+        function jsQuickSort(array) {
+            if (array.length <= 1) {
+                return array;
+            }
+            const pivotIndex = Math.floor(array.length / 2);
+            const pivot = array.splice(pivotIndex, 1)[0];  //从数组中取出我们的"基准"元素
+            const left = [], right = [];
+            array.forEach(item => {
+                if (item.val < pivot.val) {  //left 存放比 pivot 小的元素
+                    left.push(item);
+                } else {  //right 存放大于或等于 pivot 的元素
+                    right.push(item);
+                }
+            });
+            //至此，我们将数组分成了left和right两个部分
+            return jsQuickSort(left).concat(pivot, jsQuickSort(right));  //分而治之
+        }
+        const sortList1 = head => {
+            if (!head) return null
+            let list = []
+            while (head) {
+                list.push(head)
+                head = head.next
+            }
+            list = jsQuickSort(list)
+            // list.sort((a, b) => a.val - b.val)
+            for (let i = 0; i < list.length; i++) list[i].next = list[i + 1] || null
+            return list[0]
+        }
+        function ListNode(val) {
+            this.val = val;
+            this.next = null;
+        }
+        let sortList = function (head) {
+            return mergeSortRec(head)
+        }
+
+        // 归并排序
+        // 若分裂后的两个链表长度不为 1，则继续分裂
+        // 直到分裂后的链表长度都为 1，
+        // 然后合并小链表
+        let mergeSortRec = function (head) {
+            if (!head || !head.next) {
+                return head
+            }
+            // 获取中间节点
+            let middle = middleNode(head)
+            // 分裂成两个链表
+            let temp = middle.next
+            middle.next = null
+            let left = head, right = temp
+            // 继续分裂（递归分裂）
+            left = mergeSortRec(left)
+            right = mergeSortRec(right)
+            // 合并两个有序链表
+            return mergeTwoLists(left, right)
+        }
+
+        // 获取中间节点
+        // - 如果链表长度为奇数，则返回中间节点
+        // - 如果链表长度为偶数，则有两个中间节点，这里返回第一个
+        let middleNode = function (head) {
+            let fast = head, slow = head
+            while (fast && fast.next && fast.next.next) {
+                slow = slow.next
+                fast = fast.next.next
+            }
+            return slow
+        }
+
+        // 合并两个有序链表
+        let mergeTwoLists = function (l1, l2) {
+            let preHead = new ListNode(-1);
+            let cur = preHead;
+            while (l1 && l2) {
+                if (l1.val < l2.val) {
+                    cur.next = l1;
+                    l1 = l1.next;
+                } else {
+                    cur.next = l2;
+                    l2 = l2.next;
+                }
+                cur = cur.next;
+            }
+            cur.next = l1 || l2;
+            return preHead.next;
+        }
+        var sortList2 = function (head) {
+            if (!head || !head.next) return head
+            var p = [head, head.next]
+            while (p[1] && p[1].next) p = [p[0].next, p[1].next.next]
+            var mid = p[0].next
+            p[0].next = null
+            p = [sortList2(head), sortList2(mid)]
+            var h = new ListNode(0), res = h
+            while (p[0] && p[1]) p[0].val < p[1].val ? (h.next = p[0], p[0] = p[0].next) : (h.next = p[1], p[1] = p[1].next), h = h.next
+            h.next = p[0] || p[1]
+            return res.next
+        };
+        function a(type) {
+            let typeMap = {
+                1: sortList,
+                2: sortList1,
+                3: sortList2
+            }
+            console.time()
+            console.log(typeMap[type](head))
+            console.timeEnd()
+        }
+    </script>
+</body>
+
+</html>
