@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>面试题 16.02. 单词频率</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 设计一个方法，找出任意指定单词在一本书中的出现频率。
+     *  WordsFrequency(book)构造函数，参数为字符串数组构成的一本书
+     *  get(word)查询指定单词在书中出现的频率
+    */
+    class WordsFrequency {
+      constructor(book) {
+        this.book = new Map()
+        for (let word of book)
+          this.book.has(word) && this.book.set(word, this.book.get(word) + 1) || this.book.set(word, 1)
+      }
+      get(word) {
+        return this.book.get(word) || 0
+      }
+    }
+  </script>
+</body>
+
+</html>

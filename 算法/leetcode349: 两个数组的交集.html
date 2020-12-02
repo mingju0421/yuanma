@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode349: 两个数组的交集</title>
+</head>
+
+<body>
+  <script>
+    /**
+      给定两个数组，编写一个函数来计算它们的交集。
+    */
+    const intersection = function (nums1, nums2) {
+      let map = {}
+      for (let num of nums1) map[num] = 1
+      let result = new Set()
+      for (let num of nums2) map[num] && result.add(num)
+      return Array.from(result)
+    };
+  </script>
+</body>
+
+</html>

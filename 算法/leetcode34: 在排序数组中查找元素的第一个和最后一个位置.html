@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode34: 在排序数组中查找元素的第一个和最后一个位置</title>
+</head>
+
+<body>
+  <script>
+    /**
+      给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。如果数组中不存在目标值 target，返回 [-1, -1]。
+    */
+    var searchRange = function (nums, target) {
+      let result = []
+      for (let i = 0; i < nums.length; i++) {
+        if (target == nums[i]) result[0] == undefined ? result = [i, i] : result[1] = i
+      }
+      return result.length == 2 ? result : [-1, -1]
+    };
+  </script>
+</body>
+
+</html>

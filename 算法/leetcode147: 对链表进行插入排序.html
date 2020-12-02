@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode147: 对链表进行插入排序</title>
+</head>
+
+<body>
+  <script src="../tool.js"></script>
+  <script>
+    /**
+     * 插入排序算法：
+     *  插入排序是迭代的，每次只移动一个元素，直到所有元素可以形成一个有序的输出列表。
+     *  每次迭代中，插入排序只从输入数据中移除一个待排序的元素，找到它在序列中适当的位置，并将其插入。
+     *  重复直到所有输入数据插入完为止。
+    */
+    let insertionSortList = head => {
+      if (!head) return null
+      let nodeList = []
+      let _node = head
+      while (_node) {
+        nodeList.push(_node)
+        _node = _node.next
+      }
+      for (let i = 0; i < nodeList.length; i++) {
+        let val = nodeList[i].val
+        for (let j = 0; j < i; j++) {
+          let _val = nodeList[j].val
+          if (val < _val) {
+            nodeList.splice(j, 0, nodeList.splice(i, 1)[0])
+            break
+          }
+        }
+      }
+      for (let i = 0; i < nodeList.length; i++)nodeList[i].next = nodeList[i + 1] || null
+      return nodeList[0]
+    }
+    let head = 生成链表([4, 2, 1, 3])
+    console.log(insertionSortList(head))
+  </script>
+</body>
+
+</html>

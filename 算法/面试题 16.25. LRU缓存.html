@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>面试题 16.25. LRU缓存</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 设计和构建一个“最近最少使用”缓存，该缓存会删除最近最少使用的项目。缓存应该从键映射到值(允许你插入和检索特定键对应的值)，并在初始化时指定最大容量。当缓存被填满时，它应该删除最近最少使用的项目。
+     * 它应该支持以下操作： 获取数据 get 和 写入数据 put 。
+     * 获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。
+     * 写入数据 put(key, value) - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。
+    */
+    class LRUCache {
+      constructor(capacity) {
+        this.keyMap = {}
+        this.length = capacity
+        this.mapLength = 0
+      }
+
+      put(key, value) {
+        key = 'a' + key
+        if (this.keyMap[key] != undefined) {
+          delete this.keyMap[key]
+          this.mapLength--
+        }
+        this.keyMap[key] = value
+        if (this.mapLength >= this.length) for (var key in this.keyMap) return delete this.keyMap[key];
+        this.mapLength++
+      }
+      get(key) {
+        key = 'a' + key
+        if (this.keyMap[key] == undefined) return -1
+        let value = this.keyMap[key]
+        delete this.keyMap[key]
+        this.keyMap[key] = value
+        return value
+      }
+    }
+    // Object 的赋值, 读取, 删除, 都比 map 的消耗更大
+    class LRUCache {
+      constructor(capacity) {
+        this.cache = new Map()
+        this.capacity = capacity
+      }
+      get(key) {
+        if (!this.cache.has(key)) return -1
+        let value = this.cache.get(key)
+        this.cache.delete(key)
+        this.cache.set(key, value)
+        return value
+      }
+      put(key, value) {
+        if (this.cache.has(key)) this.cache.delete(key)
+        this.cache.set(key, value)
+        if (this.cache.size > this.capacity) this.cache.delete(this.cache.keys().next().value)
+      }
+    }
+    let arr = ["put", "put", "put", "put", "get", "get"]
+    let arr1 = [[2, 1], [1, 1], [2, 3], [4, 1], [1], [2]]
+    let aa = new LRUCache(2)
+    for (let i = 0; i < arr.length; i++) {
+      console.log(aa[arr[i]](...arr1[i]))
+    }
+  </script>
+</body>
+
+</html>

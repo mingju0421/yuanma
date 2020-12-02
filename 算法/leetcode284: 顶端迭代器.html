@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode284: 顶端迭代器</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 给定一个迭代器类的接口，接口包含两个方法： next() 和 hasNext()。设计并实现一个支持 peek() 操作的顶端迭代器 -- 其本质就是把原本应由 next() 方法返回的元素 peek() 出来。
+    */
+    class PeekingIterator {
+      constructor(iterator) {
+        this.iterator = iterator
+        this.peekValue = ''
+      }
+      peek() {
+        this.peekValue = this.peekValue || this.iterator.next()
+        return this.peekValue
+      }
+      next() {
+        let result = this.peekValue || this.iterator.next()
+        this.peekValue = ''
+        return result
+      }
+      hasNext() {
+        return !!this.peekValue || this.iterator.hasNext()
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode1: 两数之和</title>
+</head>
+
+<body>
+  <script>
+    /**
+      给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+      你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
+    */
+    const twoSum = (nums, target) => {
+      // 创建映射, 将每个数字作为 key, index 作为 value
+      let map = new Map()
+      for (let [index, num] of nums.entries()) map.set(num, index)
+      for (let [index, num] of nums.entries()) {
+        // 如果 target - num 这个 key 存在, 判断 index 是否一样, 如果不一样就返回
+        let _index = map.get(target - num)
+        if (_index != undefined && _index != index) return [index, _index]
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>leetcode202: 快乐数</title>
+</head>
+
+<body>
+  <script>
+    /**
+      编写一个算法来判断一个数 n 是不是快乐数。
+      「快乐数」定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和，然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。如果 可以变为  1，那么这个数就是快乐数。
+      如果 n 是快乐数就返回 True ；不是，则返回 False 。
+    */
+    const isHappy = n => {
+      // 将所有出现过的数字保存到 map, 如果再次出现, 证明进入死循环, 判断 n 是否为 1
+      let map = new Map()
+      while (!map.get(n) && n != 1) {
+        map.set(n, 1)
+        let arr = []
+        while (n) n = arr.push(n % 10) && ~~(n / 10)
+        for (let i of arr) n += i * i
+      }
+      return n == 1
+    }
+  </script>
+</body>
+
+</html>
